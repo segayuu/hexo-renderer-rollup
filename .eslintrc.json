@@ -1,0 +1,12 @@
+{
+    "extends": "hexo",
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "space-before-function-paren": ["error", {
+            "named": "never",
+            "asyncArrow": "always"
+        }]
+    }
+}

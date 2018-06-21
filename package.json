@@ -1,0 +1,27 @@
+{
+  "name": "hexo-renderer-rollup",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "rollup": "^0.60.7"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-hexo": "^3.0.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "hexo": "^3.7.1",
+    "hexo-test-utils": "^0.3.1",
+    "jest": "^23.1.0"
+  },
+  "peerDependencies": {
+    "hexo": "3"
+  },
+  "engines": {
+    "node": "^8.11||10"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest"
+  }
+}

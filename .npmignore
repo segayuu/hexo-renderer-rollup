@@ -1,0 +1,6 @@
+__tests__
+.editorconfig
+.eslintrc.json
+.gitignore
+.vscode
+README.md
