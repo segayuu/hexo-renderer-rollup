@@ -8,7 +8,7 @@ trim_trailing_whitespace = true
 [*.{md,markdown}]
 trim_trailing_whitespace = false
 
-[{lib,src,test}/**.js]
+[{lib,src,test,__tests__}/**.js]
 indent_style = space
 indent_size = 2
 
