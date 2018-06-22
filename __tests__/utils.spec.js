@@ -1,8 +1,23 @@
 'use strict';
 const objectMap = require('../lib/utils/objectMap');
 const toAbsolutePaths = require('../lib/utils/toAbsolutePaths');
+const {
+  getRawSiteConfig,
+  getRawThemeConfig,
+  getRawOverrideThemeConfig,
+  getRawConfigs,
+  getRawAllConfigs
+} = require('../lib/utils/getHexoConfigs');
 
 const { join } = require('path');
+
+const { createSandbox, process } = require('hexo-test-utils/core');
+const Hexo = require('hexo');
+
+/** @type {(fixture?: string) => Promise<Hexo>} */
+const sandbox = createSandbox(Hexo, {
+  fixture_folder: `${__dirname}/fixtures`
+});
 
 describe('objectMap', () => {
   test('Array', () => {
@@ -72,5 +87,61 @@ describe('toAbsolutePaths', () => {
       join(__dirname, 'test1.js'),
       join(__dirname, 'test2.js')
     ]);
+  });
+});
+
+describe('getHexoConfigs', () => {
+  test('getRawSiteConfig', async () => {
+    const hexo = await sandbox();
+    const result = getRawSiteConfig('title', hexo);
+    expect(result).toBe('Hexo');
+  });
+
+  test('getRawThemeConfig', async () => {
+    const hexo = await sandbox('mock_theme_config');
+    await process(hexo);
+
+    const result = getRawThemeConfig('default_layout', hexo);
+
+    expect(result).toBe('post');
+  });
+
+  test('getRawOverrideThemeConfig', async () => {
+    const hexo = await sandbox('mock_theme_config');
+    await process(hexo);
+
+    const result = getRawOverrideThemeConfig('baseColor', hexo);
+
+    expect(result).toBe('blue');
+  });
+
+  test('getRawConfigs', async () => {
+    const hexo = await sandbox();
+    await process(hexo);
+
+    const result = getRawConfigs('title', hexo);
+
+    expect(result).toHaveProperty('site');
+    expect(result).toHaveProperty('theme');
+    expect(result).toHaveProperty('override');
+
+    expect(result.site).toBe('Hexo');
+    expect(result.theme).toBeUndefined();
+    expect(result.override).toBeUndefined();
+  });
+
+  test('getRawAllConfigs', async () => {
+    const hexo = await sandbox('mock_theme_config');
+    await process(hexo);
+
+    const result = getRawAllConfigs(hexo);
+
+    expect(result).toHaveProperty('site');
+    expect(result).toHaveProperty('theme');
+    expect(result).toHaveProperty('override');
+
+    expect(result.site).toHaveProperty('title');
+    expect(result.theme).toHaveProperty('default_layout');
+    expect(result.override).toHaveProperty('baseColor');
   });
 });

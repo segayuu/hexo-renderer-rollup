@@ -1,0 +1,3 @@
+theme: test
+theme_config:
+  baseColor: blue

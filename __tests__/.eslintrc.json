@@ -4,5 +4,14 @@
     "env": {
         "mocha": false,
         "jest": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "space-before-function-paren": ["error", {
+            "named": "always",
+            "asyncArrow": "always"
+        }]
     }
 }
