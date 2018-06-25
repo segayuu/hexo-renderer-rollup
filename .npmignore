@@ -1,6 +1,8 @@
-__tests__
+tests
 .editorconfig
 .eslintrc.json
 .gitignore
 .vscode
+.babelrc
+.travis.yml
 README.md
