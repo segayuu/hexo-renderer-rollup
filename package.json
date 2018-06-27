@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "dependencies": {
-    "lodash.omit": "^4.5.0",
+    "clone-deep": "^4.0.0",
     "rollup": "^0.60.7"
   },
   "devDependencies": {
