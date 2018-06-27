@@ -21,7 +21,13 @@ test('through', async () => {
   await process(hexo);
 
   const result = await jsRender(join(fixturePath, 'app.js'), hexo);
-  expect(typeof result).toBe('string');
+  expect(result).toBe([
+    'function add(a, b) {',
+    '    return a + b;',
+    '}',
+    '',
+    'export { add };'
+  ].join('\n') + '\n');
 });
 
 test('iife', async () => {
@@ -38,5 +44,18 @@ test('iife', async () => {
   await process(hexo);
 
   const result = await jsRender(join(fixturePath, 'app.js'), hexo);
-  expect(typeof result).toBe('string');
+  expect(result).toBe([
+    'var hexoRollup = (function (exports) {',
+    '    \'use strict\';',
+    '',
+    '    function add(a, b) {',
+    '        return a + b;',
+    '    }',
+    '',
+    '    exports.add = add;',
+    '',
+    '    return exports;',
+    '',
+    '}({}));'
+  ].join('\n') + '\n');
 });
