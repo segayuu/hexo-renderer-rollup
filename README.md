@@ -1,5 +1,7 @@
 # hexo-renderer-hexo
 
+[![Build Status](https://travis-ci.com/segayuu/hexo-renderer-rollup.svg?branch=master)](https://travis-ci.com/segayuu/hexo-renderer-rollup)
+
 ## install
 
 ``` sh
