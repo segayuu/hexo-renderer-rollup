@@ -21,7 +21,28 @@ test('site plugins', async () => {
   await process(hexo);
 
   const result = await jsRender(join(fixturePath, 'app.mjs'), hexo);
-  expect(result).toEqual([
+  expect(result).toBe([
+    'var hexoRollup = (function () {',
+    '    \'use strict\';',
+    '',
+    '    var result = true;',
+    '',
+    '    return result;',
+    '',
+    '}());',
+    ''
+  ].join('\n'));
+});
+
+test('theme plugin', async () => {
+  const fixtureName = 'theme_plugin';
+  const fixturePath = join(fixture_folder, fixtureName);
+  const hexo = await sandbox(fixtureName);
+
+  await process(hexo);
+
+  const result = await jsRender(join(fixturePath, 'themes', 'test', 'app.mjs'), hexo);
+  expect(result).toBe([
     'var hexoRollup = (function () {',
     '    \'use strict\';',
     '',

@@ -26,8 +26,9 @@ test('through', async () => {
     '    return a + b;',
     '}',
     '',
-    'export { add };'
-  ].join('\n') + '\n');
+    'export { add };',
+    ''
+  ].join('\n'));
 });
 
 test('iife', async () => {
@@ -56,6 +57,7 @@ test('iife', async () => {
     '',
     '    return exports;',
     '',
-    '}({}));'
-  ].join('\n') + '\n');
+    '}({}));',
+    ''
+  ].join('\n'));
 });

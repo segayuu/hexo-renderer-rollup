@@ -1,0 +1,6 @@
+rollup:
+  input: app.mjs
+  plugins: json
+  output:
+    format: iife
+    name: hexoRollup

@@ -116,7 +116,7 @@ describe('getHexoConfigs', () => {
   });
 
   test('getRawConfigs', async () => {
-    const hexo = await sandbox();
+    const hexo = await sandbox('mock_theme_config');
     await process(hexo);
 
     const result = getRawConfigs('title', hexo);
