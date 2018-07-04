@@ -8,6 +8,11 @@ const {
   getRawConfigs,
   getRawAllConfigs
 } = require('../lib/utils/getHexoConfigs');
+const rollupPluginFromName = require('../lib/utils/rollupPluginFromName');
+const objectWithoutKeys = require('../lib/utils/objectWithoutKeys');
+const createRollupPlugin = require('../lib/utils/createRollupPlugin');
+
+const rollupPluginJson = require('rollup-plugin-json');
 
 const { join } = require('path');
 
@@ -121,13 +126,9 @@ describe('getHexoConfigs', () => {
 
     const result = getRawConfigs('title', hexo);
 
-    expect(result).toHaveProperty('site');
-    expect(result).toHaveProperty('theme');
-    expect(result).toHaveProperty('override');
-
-    expect(result.site).toBe('Hexo');
-    expect(result.theme).toBeUndefined();
-    expect(result.override).toBeUndefined();
+    expect(result).toHaveProperty('site', 'Hexo');
+    expect(result).toHaveProperty('theme', undefined);
+    expect(result).toHaveProperty('override', undefined);
   });
 
   test('getRawAllConfigs', async () => {
@@ -136,12 +137,58 @@ describe('getHexoConfigs', () => {
 
     const result = getRawAllConfigs(hexo);
 
-    expect(result).toHaveProperty('site');
-    expect(result).toHaveProperty('theme');
-    expect(result).toHaveProperty('override');
-
-    expect(result.site).toHaveProperty('title');
-    expect(result.theme).toHaveProperty('default_layout');
-    expect(result.override).toHaveProperty('baseColor');
+    expect(result).toHaveProperty(['site', 'title']);
+    expect(result).toHaveProperty(['theme', 'default_layout']);
+    expect(result).toHaveProperty(['override', 'baseColor']);
   });
+});
+
+describe('rollupPluginName', () => {
+  test('no prefix', () => {
+    const result = rollupPluginFromName('json');
+    const plugin = rollupPluginJson();
+    expect(result).toHaveProperty('name', plugin.name);
+    expect(result).toHaveProperty(['transform', 'name'], plugin.transform.name);
+  });
+
+  test('has prefix', () => {
+    const result = rollupPluginFromName('rollup-plugin-json');
+    const plugin = rollupPluginJson();
+    expect(result).toHaveProperty('name', plugin.name);
+    expect(result).toHaveProperty(['transform', 'name'], plugin.transform.name);
+  });
+});
+
+describe('createRollupPlugin', () => {
+  test('no prefix', () => {
+    const result = createRollupPlugin('json', {});
+    const plugin = rollupPluginJson();
+    expect(result).toHaveProperty('name', plugin.name);
+    expect(result).toHaveProperty(['transform', 'name'], plugin.transform.name);
+  });
+
+  test('has prefix', () => {
+    const result = createRollupPlugin('rollup-plugin-json', {});
+    const plugin = rollupPluginJson();
+    expect(result).toHaveProperty('name', plugin.name);
+    expect(result).toHaveProperty(['transform', 'name'], plugin.transform.name);
+  });
+});
+
+test('objectWithoutKeys', () => {
+  const input = {
+    key1: true,
+    key2: false
+  };
+
+  const result = objectWithoutKeys(input, ['key1']);
+  expect(input).toHaveProperty('key1', true);
+  expect(result).toHaveProperty('key2');
+  expect(result).not.toHaveProperty('key1');
+});
+
+test('objectWithoutKeys - most string[]', () => {
+  expect(() => {
+    objectWithoutKeys({}, 'key1');
+  }).toThrow();
 });
